@@ -10,29 +10,43 @@ class Employee {
     };
     
     viewAllEmployees() {
-        const sql = `SELECT employee.*, 
-        role.name AS role_name, 
-        manager.name AS manager_name,
+        const sql = `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, 
+        department.name AS department_name, CONCAT(m.first_name, ' ', m.last_name) AS manager
         FROM employee 
-        JOIN role ON employee.role_id = role.id
-        JOIN manager ON employee.manager_id = manager.id`;
+        LEFT JOIN role ON employee.role_id = role.id 
+        LEFT JOIN department ON role.department_id = department.id
+        LEFT JOIN employee m ON m.id = employee.manager_id`;
         db.query(sql, (err, rows) => {
             if (err) {
                 console.log(err);
             }
-            const table = cTable.getTable(rows.json());
-            console.log(table);
+            console.log(rows);
+            const table = cTable.getTable(rows);
+            console.table(table);
         })
     };
 
-    makeNewEmployee(name) {
-        const sql = `INSERT INTO employee (first_name, last_name) VALUES (?, ?)`
-
+    makeNewEmployee(first_name, last_name, manager_id, role_id) {
+        const sql = `INSERT INTO employee (first_name, last_name, manager_id, role_id) VALUES (?, ?, ?, ?)`
+        const params = [first_name, last_name, manager_id, role_id];
+        db.query(sql, params, (err, row) => {
+            if (err) {
+                console.log(err);
+            }
+            this.viewAllEmployees();
+        })
     };
 
-    updateEmployee(id) {
-        const sql = `UPDATE department SET name = ? 
+    updateEmployeeRole(role_id, id) {
+        const sql = `UPDATE employee SET role_id = ? 
                  WHERE id = ?`;
+        const params = [role_id, id];
+        db.query(sql, params, (err, row) => {
+            if (err) {
+                console.log(err);
+            }
+            this.viewAllEmployees();
+        })
     }
 };
 
