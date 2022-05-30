@@ -8,6 +8,7 @@ class Role {
     };
     
     viewAllRoles() {
+        // Print role table and joins relational data of department_name on department.id
         const sql = `SELECT role.*, department.name As department_name
                     FROM role
                     LEFT JOIN department ON role.department_id = department.id`;
@@ -30,6 +31,7 @@ class Role {
     };
 
     makeNewRole(title, salary, department_id) {
+        // Makes a new role
         const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
         const params = [title, salary, department_id];
         db.query(sql, params, (err, row) => {
@@ -43,6 +45,7 @@ class Role {
     };
 
     updateRoles(salary, id) {
+        // Update salary of a role
         const sql = `UPDATE role SET salary = ? 
                  WHERE id = ?`;
         const params = [salary, id];

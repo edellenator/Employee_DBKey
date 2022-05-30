@@ -1,4 +1,4 @@
-// Import classes
+// Import classes and create new classes for each to call methods
 const Department = require('./models/Department');
 const department = new Department();
 const Employee = require('./models/Employee');
@@ -12,6 +12,7 @@ const cTable = require('console.table');
 const inquirer = require ('inquirer');
 const ui = new inquirer.ui.BottomBar();
 
+// function to prompt return to main menu
 async function returnToMain() {
     let prompt = inquirer.prompt([
         {
@@ -30,6 +31,7 @@ async function returnToMain() {
     
 };
 
+// Prompt to add a new department
 async function addNewDeptPrompt() {
     console.log(`
     ==========================================
@@ -50,6 +52,7 @@ async function addNewDeptPrompt() {
     returnToMain();
 };
 
+// prompt to add a new role
 async function addNewRolePrompt() {
     let sql = `SELECT * FROM department`; 
     let arr = []
@@ -87,7 +90,10 @@ async function addNewRolePrompt() {
     role.makeNewRole(answers.title, answers.salary, deptId)
     returnToMain();
 };
+
+// Prompt to add a new employee
 async function addNewEmployeePrompt() {
+    // Same query as in view all employees, but with an added "where" validator at the end (searching for "managers")
     let mgrSql = `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, 
     department.name AS department_name, CONCAT(m.first_name, ' ', m.last_name) AS manager
     FROM employee 
@@ -174,6 +180,8 @@ async function addNewEmployeePrompt() {
     
 };
 
+
+// Prompt to update department names
 async function updateDepartmentName() {
     let sql = `SELECT * FROM department`; 
     let arr = []
@@ -214,6 +222,8 @@ async function updateDepartmentName() {
     returnToMain();
 };
 
+
+// Prompt to update the salary of a selected role.
 async function updateRoleSalary() {
     let sql = `SELECT * FROM role`; 
     let arr = []
@@ -254,6 +264,7 @@ async function updateRoleSalary() {
     returnToMain();
 };
 
+// Prompt to update EXISTING employee based on EXISTING roles.
 async function updateEmployeeRole() {
     let empSql = `SELECT * FROM employee`; 
     let empArr = []
@@ -305,6 +316,8 @@ async function updateEmployeeRole() {
     returnToMain();
 };
 
+// main menu
+
 async function init() {
     let prompt = inquirer.prompt([
         {
@@ -332,6 +345,7 @@ async function init() {
 
     let answers = await prompt
 
+    // Check main menu selections
     if (answers.menuSelect === 'View All Departments') {
         department.viewAllDepartments();
         returnToMain();

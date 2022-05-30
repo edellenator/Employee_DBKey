@@ -1,12 +1,17 @@
 const db = require('../db/connection');
 const cTable = require('console.table');
 
+// Department class with constructor for later use
+
+// methods on department class are all mysql queries
+
 class Department {
     constructor (name) {
         this.name = name;
     };
 
     viewAllDepartments() {
+        // select all from dept table
         const sql = `SELECT * FROM department`;
         db.query(sql, (err, rows) => {
             
@@ -27,6 +32,7 @@ class Department {
     };
 
     makeNewDepartment(name) {
+        // create new dept
         const sql = `INSERT INTO department (name) VALUES (?)`
         const params = name;
         db.query(sql, params, (err, row) => {
@@ -41,7 +47,7 @@ class Department {
             this.viewAllDepartments()
         })
     };
-
+    // update name of department
     updateDepartment(name, id) {
         const sql = `UPDATE department SET name = ? 
                  WHERE id = ?`;
