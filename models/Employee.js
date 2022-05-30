@@ -20,9 +20,16 @@ class Employee {
             if (err) {
                 console.log(err);
             }
-            console.log(rows);
             const table = cTable.getTable(rows);
+            console.log(`
+            ====================================
+                      |- EMPLOYEES -|
+            ====================================           
+            `)
             console.table(table);
+            console.log(`
+            ====================================
+            `)
         })
     };
 
@@ -33,6 +40,13 @@ class Employee {
             if (err) {
                 console.log(err);
             }
+            console.log(`
+
+            ========================================================
+            ${first_name} ${last_name} has been added as an employee
+            ========================================================
+
+            `)
             this.viewAllEmployees();
         })
     };

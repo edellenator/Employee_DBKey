@@ -6,10 +6,6 @@ class Department {
         this.name = name;
     };
 
-    testMethod() {
-        return "hello world"
-    };
-
     viewAllDepartments() {
         const sql = `SELECT * FROM department`;
         db.query(sql, (err, rows) => {
@@ -18,7 +14,15 @@ class Department {
                 console.log(err);
             }
             const table = cTable.getTable(rows);
+            console.log(`
+            ====================================
+                     |- DEPARTMENTS -|
+            ====================================           
+            `)
             console.table(table);
+            console.log(`
+            ====================================
+            `)
         })
     };
 
@@ -50,6 +54,7 @@ class Department {
             this.viewAllDepartments()
         })
     }
+    
 };
 
 module.exports = Department;

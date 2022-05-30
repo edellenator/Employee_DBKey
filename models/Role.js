@@ -16,7 +16,15 @@ class Role {
                 console.log (err);
             }
             const table = cTable.getTable(rows);
+            console.log(`
+            ====================================
+                        |- ROLES -|
+            ====================================           
+            `);
             console.log(table);
+            console.log(`
+            ====================================
+            `);
         })
         
     };
@@ -30,12 +38,12 @@ class Role {
             ============================================
             You have added ${title} to the list or Roles
             ============================================
-            `)
+            `);
         })
     };
 
     updateRoles(salary, id) {
-        const sql = `UPDATE department SET salary = ? 
+        const sql = `UPDATE role SET salary = ? 
                  WHERE id = ?`;
         const params = [salary, id];
         db.query(sql, params, (err, row) => {
@@ -44,7 +52,7 @@ class Role {
             ====================================
             Salary has been updated to ${salary}
             ====================================
-            `)
+            `);
         })
         
     }
